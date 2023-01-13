@@ -1,17 +1,17 @@
 package scheduler;
 
-import javafx.util.Pair;
+import org.apache.commons.lang3.Pair;
 
 import java.util.ArrayList;
 
 public class Grup {
 
-    private int id;
+    private String id;
     private String nom;
     private ArrayList<ArrayList<Pair<Double,Double>>> hores;
 
     public Grup(){
-        id = -1;
+        id = "";
         hores = new ArrayList<>();
     }
 
@@ -23,18 +23,18 @@ public class Grup {
         hores.addAll(g.getHores());
     }
 
-    public Grup(int id, ArrayList<ArrayList<Pair<Double,Double>>> hores){
+    public Grup(String id, ArrayList<ArrayList<Pair<Double,Double>>> hores){
         this.id = id;
         this.hores = hores;
     }
 
-    public int getId(){return this.id;}
+    public String getId(){return this.id;}
 
     public String getNom(){return this.nom;}
 
     public ArrayList<ArrayList<Pair<Double,Double>>> getHores(){return this.hores;}
 
-    public void setId(int id){
+    public void setId(String id){
         this.id = id;
     }
 

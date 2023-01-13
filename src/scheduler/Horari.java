@@ -1,6 +1,7 @@
 package scheduler;
 
-import javafx.util.Pair;
+
+import org.apache.commons.lang3.Pair;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -73,10 +74,6 @@ public class Horari {
         {
             for (Grup g2 : horari)
             {
-                if (Objects.equals(g.getNom(), "Models estadistics i psicometrics") && g.getId() == 2 || Objects.equals(g2.getNom(), "Models estadistics i psicometrics") && g2.getId() == 2)
-                {
-                    int a = 2;
-                }
                 if (!valid(g2.getHores().get(i), g.getHores().get(i))) return false;
             }
         }
@@ -135,7 +132,7 @@ public class Horari {
         }
         ret.sort((o1, o2) -> {
             if (o1.equals(o2)) return 0;
-            if (o1.getValue().getKey() > o2.getValue().getKey()) return 1;
+            if (o1.right.left > o2.right.left) return 1;
             else return -1;
         });
         return new ArrayList<>(ret);
@@ -149,7 +146,7 @@ public class Horari {
             ArrayList<Pair<String,Pair<Double, Double>>> dia = ordena(i);
             for (Pair<String,Pair<Double, Double>> var : dia)
             {
-                System.out.println(toHour(var.getValue().getKey()) + "-" + toHour(var.getValue().getValue()) + " " + var.getKey());
+                System.out.println(toHour(var.right.left) + "-" + toHour(var.right.left) + " " + var.left);
             }
             System.out.println();
         }
@@ -158,13 +155,13 @@ public class Horari {
     public double getEval(){return this.eval;}
 
     private boolean solapament(Pair<Double, Double> hores1, Pair<Double, Double> hores2) {
-        if (hores1.getValue() > maxHora || hores2.getValue() > maxHora) return true;
-        if (hores1.getKey() == -1 || hores2.getKey() == -1) return false;
-        return hores1.getValue() > hores2.getKey() && hores2.getValue() > hores1.getKey();
+        if (hores1.right > maxHora || hores2.right > maxHora) return true;
+        if (hores1.left == -1 || hores2.left == -1) return false;
+        return hores1.right > hores2.left && hores2.right > hores1.left;
     }
 
     private boolean dins(Pair<Double, Double> hores1, Pair<Double, Double> hores2) {
-        return (hores1.getKey() <= hores2.getKey() && hores1.getValue() >= hores2.getValue() || hores2.getKey() <= hores1.getKey() && hores2.getValue() >= hores1.getValue());
+        return (hores1.left <= hores2.left && hores1.right >= hores2.right || hores2.left <= hores1.left && hores2.right >= hores1.right);
     }
 
     private boolean valid(ArrayList<Pair<Double, Double>> pairs, ArrayList<Pair<Double, Double>> pairs1) {
@@ -174,11 +171,11 @@ public class Horari {
     private boolean noMaxHora(ArrayList<Pair<Double, Double>> pairs, ArrayList<Pair<Double, Double>> pairs1) {
         for (Pair<Double,Double> p : pairs)
         {
-            if (p.getValue() > maxHora) return false;
+            if (p.right > maxHora) return false;
         }
         for (Pair<Double,Double> p : pairs1)
         {
-            if (p.getValue() > maxHora) return false;
+            if (p.right > maxHora) return false;
         }
         return true;
     }
@@ -214,12 +211,12 @@ public class Horari {
             ArrayList<Pair<String,Pair<Double, Double>>> dia = ordena(i);
             for (int j = 1; j < dia.size(); j++)
             {
-                hores_mortes += Math.abs(dia.get(j-1).getValue().getValue() - dia.get(j).getValue().getKey());
-                hores += dia.get(j-1).getValue().getValue() - dia.get(j-1).getValue().getKey();
+                hores_mortes += Math.abs(dia.get(j-1).right.right - dia.get(j).right.left);
+                hores += dia.get(j-1).right.right - dia.get(j-1).right.left;
             }
             hores_dia[i] = hores;
             if (dia.size() == 0) dia_lliure = true;
-            else sortir_dhora = Math.max(sortir_dhora,dia.get(dia.size()-1).getValue().getValue());
+            else sortir_dhora = Math.max(sortir_dhora,dia.get(dia.size()-1).right.right);
         }
         double val_hores_equilibrades = desviacio(hores_dia);
         double extra;
