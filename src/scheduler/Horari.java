@@ -146,7 +146,7 @@ public class Horari {
             ArrayList<Pair<String,Pair<Double, Double>>> dia = ordena(i);
             for (Pair<String,Pair<Double, Double>> var : dia)
             {
-                System.out.println(toHour(var.right.left) + "-" + toHour(var.right.left) + " " + var.left);
+                System.out.println(toHour(var.right.left) + "-" + toHour(var.right.right) + " " + var.left);
             }
             System.out.println();
         }

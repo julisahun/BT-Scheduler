@@ -35,7 +35,7 @@ public class Main {
                     fillCSV(reader);
                     break;
                 } else if (Objects.equals(type, "JSON")) {
-                    String data = new String(Files.readAllBytes(Paths.get("../../../data/file.json")));
+                    String data = new String(Files.readAllBytes(Paths.get("data/file.json")));
                     JSONObject json = new JSONObject(data);
                     fillJSON(json);
                     break;
@@ -117,8 +117,15 @@ public class Main {
         String assig = s.nextLine();
         assig = s.nextLine();
         String[] aux = assig.split(",");
-        Collections.addAll(Assignatures_obligatories, aux);
-
+        for(String a : aux) {
+            a = a.trim().toLowerCase();
+            for(Assignatura h : horaris) {
+                if(Objects.equals(h.getNom(), a)){
+                    Assignatures_obligatories.add(a);
+                    break;
+                }
+            }
+        }
         System.out.println("A quina hora maxima vols marxar?");
         Horari.setHMax(s.nextLine());
         while(true) {
@@ -151,7 +158,7 @@ public class Main {
 
             JSONObject groups = (JSONObject) json.get(assigName);
             Assignatura a = new Assignatura();
-            a.setNom(assigName);
+            a.setNom(assigName.toLowerCase());
             a.setNgrups(groups.length());
             ArrayList<Grup> assigGrup = new ArrayList<>();
             int i = 0;
@@ -201,7 +208,7 @@ public class Main {
         while ((linea = reader.readNext()) != null)
         {
             Assignatura a = new Assignatura();
-            a.setNom(linea[0]);
+            a.setNom(linea[0].toLowerCase());
             a.setNgrups(linea.length-2);
             ArrayList<Grup> grups = new ArrayList<>();
             for (int i = 1; i < linea.length-1; i++)
