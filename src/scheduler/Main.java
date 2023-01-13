@@ -13,8 +13,6 @@ import org.apache.commons.lang3.Pair;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import static java.util.concurrent.TimeUnit.DAYS;
-
 public class Main {
 
     static private int Nassig;
@@ -33,11 +31,11 @@ public class Main {
                 Scanner s = new Scanner(System.in);
                 String type = s.nextLine();
                 if (Objects.equals(type, "CSV")) {
-                    CSVReader reader = new CSVReader(new FileReader("./data/file.csv"));
+                    CSVReader reader = new CSVReader(new FileReader("../../../data/file.csv"));
                     fillCSV(reader);
                     break;
                 } else if (Objects.equals(type, "JSON")) {
-                    String data = new String(Files.readAllBytes(Paths.get("./data/file.json")));
+                    String data = new String(Files.readAllBytes(Paths.get("../../../data/file.json")));
                     JSONObject json = new JSONObject(data);
                     fillJSON(json);
                     break;
@@ -55,17 +53,17 @@ public class Main {
             e.printStackTrace();
             System.out.println("Exepcio");
         }
-
-
     }
 
     private static void print() {
         Scanner s = new Scanner(System.in);
         while(true)
         {
+            System.out.println();
             Horari h = horari_final.poll();
             System.out.println("NOTA = " + h.getEval() + " ");
             for (int i = 0; i < h.getHorari().size(); i++) System.out.print(h.getHorari().get(i).getNom() + " " + (h.getHorari().get(i).getId()) + "   ");
+            System.out.println();
             System.out.println();
             h.print();
             System.out.println();
@@ -73,6 +71,8 @@ public class Main {
             System.out.println("----- Enter per veure mes horaris -----");
             s.nextLine();
         }
+        System.out.println("------ Enter per sortir del programa -----");
+        s.nextLine();
     }
 
     private static void CreaHorari() {
