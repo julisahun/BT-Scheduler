@@ -35,7 +35,7 @@ public class Main {
                     fillCSV(reader);
                     break;
                 } else if (Objects.equals(type, "JSON")) {
-                    String data = new String(Files.readAllBytes(Paths.get("data/file.json")));
+                    String data = new String(Files.readAllBytes(Paths.get("../../../data/file.json")));
                     JSONObject json = new JSONObject(data);
                     fillJSON(json);
                     break;
